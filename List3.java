@@ -38,7 +38,7 @@ import components.list.ListSecondary;
  *    $this.postFinish.previous])
  * </pre>
  *
- * @author Put your name here
+ * @author Nik Anand and Hudson Arledge
  *
  */
 public class List3<T> extends ListSecondary<T> {
@@ -174,7 +174,15 @@ public class List3<T> extends ListSecondary<T> {
      */
     private void createNewRep() {
 
-        // TODO - fill in body
+        Node front = new Node();
+        Node back = new Node();
+        this.preStart = front;
+        this.lastLeft = front;
+        this.postFinish = back;
+        front.next = back;
+        back.previous = front;
+        this.leftLength = 0;
+        this.rightLength = 0;
 
     }
 
@@ -183,7 +191,7 @@ public class List3<T> extends ListSecondary<T> {
      */
     public List3() {
 
-        // TODO - fill in body
+        this.createNewRep();
 
         assert this.conventionHolds();
     }
@@ -228,9 +236,20 @@ public class List3<T> extends ListSecondary<T> {
     @Override
     public final void addRightFront(T x) {
         assert x != null : "Violation of: x is not null";
-
-        // TODO - fill in body
-
+        //declare new node
+        Node q = new Node();
+        //store x in node data
+        q.data = x;
+        //point q.next at current right-front node
+        q.next = this.lastLeft.next;
+        //point the current right-front mode's previous at q
+        this.lastLeft.next.previous = q;
+        //point lastleft.next at q
+        this.lastLeft.next = q;
+        //point q.previous at lastleft
+        q.previous = this.lastLeft;
+        //increment right length
+        this.rightLength++;
         assert this.conventionHolds();
     }
 
@@ -238,18 +257,24 @@ public class List3<T> extends ListSecondary<T> {
     public final T removeRightFront() {
         assert this.rightLength() > 0 : "Violation of: this.right /= <>";
 
-        // TODO - fill in body
+        Node q = this.lastLeft.next;
+        T x = q.data;
+        this.lastLeft.next = q.next;
+        q.next.previous = this.lastLeft;
+        this.rightLength--;
 
         assert this.conventionHolds();
         // Fix this line to return the result after checking the convention.
-        return null;
+        return x;
     }
 
     @Override
     public final void advance() {
         assert this.rightLength() > 0 : "Violation of: this.right /= <>";
 
-        // TODO - fill in body
+        this.lastLeft = this.lastLeft.next;
+        this.leftLength++;
+        this.rightLength--;
 
         assert this.conventionHolds();
     }
@@ -257,7 +282,9 @@ public class List3<T> extends ListSecondary<T> {
     @Override
     public final void moveToStart() {
 
-        // TODO - fill in body
+        this.lastLeft = this.preStart;
+        this.rightLength += this.leftLength;
+        this.leftLength = 0;
 
         assert this.conventionHolds();
     }
@@ -265,21 +292,17 @@ public class List3<T> extends ListSecondary<T> {
     @Override
     public final int leftLength() {
 
-        // TODO - fill in body
-
         assert this.conventionHolds();
         // Fix this line to return the result after checking the convention.
-        return 0;
+        return this.leftLength;
     }
 
     @Override
     public final int rightLength() {
 
-        // TODO - fill in body
-
         assert this.conventionHolds();
         // Fix this line to return the result after checking the convention.
-        return 0;
+        return this.rightLength;
     }
 
     @Override
@@ -343,8 +366,9 @@ public class List3<T> extends ListSecondary<T> {
     @Override
     public final void moveToFinish() {
 
-        // TODO - fill in body
-
+        this.lastLeft = this.postFinish.previous;
+        this.leftLength += this.rightLength;
+        this.rightLength = 0;
         assert this.conventionHolds();
     }
 
@@ -352,8 +376,9 @@ public class List3<T> extends ListSecondary<T> {
     public final void retreat() {
         assert this.leftLength() > 0 : "Violation of: this.left /= <>";
 
-        // TODO - fill in body
-
+        this.lastLeft = this.lastLeft.previous;
+        this.leftLength--;
+        this.rightLength++;
         assert this.conventionHolds();
     }
 
