@@ -755,4 +755,68 @@ public abstract class ListTest {
 
     // TODO - add test cases for retreat
 
+    @Test
+    public final void testRetreatEmptyLeft() {
+        /*
+         * Set up variables
+         */
+        List<String> list1 = this.createFromArgsTest(1, "red");
+        List<String> list2 = this.createFromArgsRef(0, "red");
+        list1.retreat();
+        assertEquals(list2, list1);
+
+    }
+
+    @Test
+    public final void testRetreatLeftOneRightOne() {
+        /*
+         * Set up variables
+         */
+        List<String> list1 = this.createFromArgsTest(2, "red", "blue");
+        List<String> list2 = this.createFromArgsRef(0, "red", "blue");
+        list1.retreat();
+        list1.retreat();
+        assertEquals(list2, list1);
+
+    }
+
+    @Test
+    public final void testRetreatEmptyLeftRightMany() {
+        /*
+         * Set up variables
+         */
+        List<String> list1 = this.createFromArgsTest(1, "red", "blue", "green");
+        List<String> list2 = this.createFromArgsRef(0, "red", "blue", "green");
+        list1.retreat();
+        assertEquals(list2, list1);
+
+    }
+
+    @Test
+    public final void testRetreatManyLeft() {
+        /*
+         * Set up variables
+         */
+        List<String> list1 = this.createFromArgsTest(4, "red", "blue", "green",
+                "orange");
+        List<String> list2 = this.createFromArgsRef(3, "red", "blue", "green",
+                "orange");
+        list1.retreat();
+        assertEquals(list2, list1);
+
+    }
+
+    @Test
+    public final void testRetreatManyLeftRightMany() {
+        /*
+         * Set up variables
+         */
+        List<String> list1 = this.createFromArgsTest(5, "red", "blue", "green",
+                "orange", "brown");
+        List<String> list2 = this.createFromArgsRef(4, "red", "blue", "green",
+                "orange", "brown");
+        list1.retreat();
+        assertEquals(list2, list1);
+
+    }
 }
