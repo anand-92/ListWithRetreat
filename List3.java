@@ -173,7 +173,7 @@ public class List3<T> extends ListSecondary<T> {
      * Creator of initial representation.
      */
     private void createNewRep() {
-
+        
         Node front = new Node();
         Node back = new Node();
         this.preStart = front;
@@ -256,11 +256,14 @@ public class List3<T> extends ListSecondary<T> {
     @Override
     public final T removeRightFront() {
         assert this.rightLength() > 0 : "Violation of: this.right /= <>";
-
+        //instantiate q as current right-front node
         Node q = this.lastLeft.next;
+        //store q's data
         T x = q.data;
+        //set the node after q as the new front-right node
         this.lastLeft.next = q.next;
         q.next.previous = this.lastLeft;
+        //decrement rightlength
         this.rightLength--;
 
         assert this.conventionHolds();
@@ -271,8 +274,10 @@ public class List3<T> extends ListSecondary<T> {
     @Override
     public final void advance() {
         assert this.rightLength() > 0 : "Violation of: this.right /= <>";
-
+        
+        //move last-left pointer forward by one
         this.lastLeft = this.lastLeft.next;
+        //adjust lengths accordingly
         this.leftLength++;
         this.rightLength--;
 
@@ -281,8 +286,9 @@ public class List3<T> extends ListSecondary<T> {
 
     @Override
     public final void moveToStart() {
-
+        //move last-left pointer to the beginning of the list
         this.lastLeft = this.preStart;
+        //adjust lengths accordingly
         this.rightLength += this.leftLength;
         this.leftLength = 0;
 
@@ -365,8 +371,10 @@ public class List3<T> extends ListSecondary<T> {
 
     @Override
     public final void moveToFinish() {
-
+        
+        //move last-left pointer to the end of the list
         this.lastLeft = this.postFinish.previous;
+        //adjust lengths accordingly
         this.leftLength += this.rightLength;
         this.rightLength = 0;
         assert this.conventionHolds();
@@ -375,8 +383,9 @@ public class List3<T> extends ListSecondary<T> {
     @Override
     public final void retreat() {
         assert this.leftLength() > 0 : "Violation of: this.left /= <>";
-
+        //move last-left pointer back by one 
         this.lastLeft = this.lastLeft.previous;
+        //adjust lengths accordingly
         this.leftLength--;
         this.rightLength++;
         assert this.conventionHolds();
